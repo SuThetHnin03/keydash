@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('chllenges', function (Blueprint $table) {
             $table->id();
-            $table->string('challenges');
+            $table->LONGTEXT('challenges');
             $table->integer('exp');
             $table->string('time');
             $table->timestamps();

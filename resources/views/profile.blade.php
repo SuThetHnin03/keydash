@@ -18,7 +18,6 @@
     </div>
     <div class="profilePage">
         <div class="profile-left">
-            <span></span>
             <!-- Profile Edit Button -->
             <div class="profile-edit">
                 @if (auth()->user() && auth()->user()->id === $user->id)

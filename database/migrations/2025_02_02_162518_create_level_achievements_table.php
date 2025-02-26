@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('lesson_id');
-            $table->integer('wpm')->default(0);
-            $table->string('duration')->default('00:00');
-            $table->integer('accuracy')->default(0);
-            $table->integer('typos')->default(0);
-            $table->integer('total_words')->default(0);
+            $table->string('wpm');
+            $table->string('duration');
+            $table->string('accuracy');
+            $table->string('typos');
+            $table->string('total_words');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Models\exp;
 use App\Models\User;
 use App\Models\Lesson;
 use App\Models\friends;
+use App\Models\Chllenges;
 use Illuminate\Http\Request;
 use App\Models\level_achievement;
 use Illuminate\Support\Facades\DB;
@@ -36,14 +37,10 @@ class UserController extends Controller
         return view('user.lesson', compact('lesson'));
     }
 
-    public function userChallengesPage()
-    {
-        return view('user.challenges');
-    }
-
     public function userChallengePage()
     {
-        return view('user.challenge');
+        $challenges = Chllenges::get();
+        return view('user.challenge',compact('challenges'));
     }
 
     public function profile()
@@ -155,8 +152,6 @@ class UserController extends Controller
                 'to_id' => $userId,
             ]);
         }
-
-
 
         return back();  // Redirect back to the profile page
     }

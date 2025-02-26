@@ -15,7 +15,7 @@
         <a href="">
             <li>Dashboard</li>
         </a>
-        <a href="">
+        <a href="{{route('redirectAddChallenges')}}">
             <li>Challenges</li>
         </a>
         <a href="{{route('redirectAddLessons')}}">

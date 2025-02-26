@@ -103,7 +103,7 @@
             <ul>
                 <li><a href="{{ route('userHome') }}">Home</a></li>
                 <li><a href="{{ route('userLessons') }}">Lessons</a></li>
-                <li><a href="{{ route('userChallenges') }}">Challenges</a></li>
+                <li><a href="{{ route('userChallenge') }}">Challenges</a></li>
             </ul>
         </div>
         <div class="nav-end">
