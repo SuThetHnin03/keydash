@@ -55,7 +55,7 @@ class AuthenticationController extends Controller
             }
 
             if (in_array($user->role, ['admin', 'superadmin'])) {
-                return redirect()->route('redirectDashboard');
+                return redirect()->route('redirectAddLessons');
             }
         }
 

@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </a>
-                  <a href="{{route('userLesson', ['id'=> '2'])}}">
+                  <a href="{{route('userLesson', ['id'=> 2])}}">
                     <div class="stage stage2" id="B_2">
                         <span>2</span>
                         <div class="indicators">
@@ -47,6 +47,7 @@
                         </div>
                     </div>
                   </a>
+                   <a href="{{route('userLesson', ['id'=> 3])}}">
                     <div class="stage stage3" id="1_3">
                         <span>3</span>
                         <div class="indicators">
@@ -57,6 +58,7 @@
                             <span class="indicator"></span>
                         </div>
                     </div>
+                   </a>
                     <div class="stage stage4" id="1_4">
                         <span>4</span>
                         <div class="indicators">

@@ -9,7 +9,6 @@ Route::group(["prefix" => 'user', 'middleware' => 'user'], function () {
     Route::get('/home/page', [UserController::class, 'userHomePage'])->name('userHome');
     Route::get('/lessons/page', [UserController::class, 'userLessonsPage'])->name('userLessons');
     Route::get('/lesson/{id}/page', [UserController::class, 'userLessonPage'])->name('userLesson');
-    Route::get('/challenge/page', [UserController::class, 'userChallengePage'])->name('userChallenge');
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('updateProfile');
     Route::get('/leaderboard/page',[UserController::class, 'userLeaderboardPage'])->name('userLeaderboard');
     Route::get('/profile/{id}/page', [UserController::class, 'friendProfile'])->name('friendProfile');

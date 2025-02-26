@@ -12,6 +12,7 @@
             background-color: rgb(197, 197, 197);
         }
     </style>
+
     <div class="challenge">
         <div class="lessons">
             <span class="lesson" id="one"></span>
@@ -38,10 +39,7 @@
 
         <div class="typing">
             <div class="text">
-                <span id="lesson_display" contenteditable="true">qwerrr qwerrr qwerrr qwer qwer qwer qw qw qw rr rr rr QWER
-                    QWER QWER qwerrr qwerty
-                    qwerrr qwe rty
-                    qwe rty q q q w w w e e e r rr qwerrr qwerrr qwerrr</span>
+                <span id="lesson_display" contenteditable="true">No Lesson Yet</span>
             </div>
             <div class="keyboard">
                 <div class="keyboard__row keyboard__row--h1">
@@ -268,7 +266,11 @@
                 let mistakes_display = document.querySelector("#mistakes");
                 let wpm_display = document.querySelector("#wpm");
                 let time_display = document.querySelector("#time");
-                const lessons = @json($lesson);
+
+                // Normalize the lessons data
+                const lessons = normalizeLessons(@json($lesson));
+                console.log("Normalized Lessons:", lessons);
+
                 let lessonIndex = 0;
                 let typedText = "";
                 let formattedTime = "";
@@ -283,24 +285,37 @@
                 const pathParts = window.location.pathname.split('/');
                 const lessonId = pathParts[3];
 
-                if(lessonId == 1){
+                // Set total_exp based on lessonId
+                if (lessonId == 1) {
                     total_exp = 5;
-                }else if(lessonId == 2){
+                } else if (lessonId == 2) {
                     total_exp = 10;
-                }else if(lessonId == 3){
+                } else if (lessonId == 3) {
                     total_exp = 15;
-                }else if(lessonId == 4){
+                } else if (lessonId == 4) {
                     total_exp = 20;
-                }else if(lessonId == 5){
+                } else if (lessonId == 5) {
                     total_exp = 25;
                 }
 
                 console.log("Lessons:", lessons);
 
+                // Make the lesson display editable and focusable
                 lesson_display.setAttribute("contenteditable", "true");
                 lesson_display.setAttribute("tabindex", "0");
                 lesson_display.focus();
 
+                // Normalize lessons data to handle both array and object formats
+                function normalizeLessons(data) {
+                    if (Array.isArray(data)) {
+                        return data; // Already an array, return as-is
+                    } else if (typeof data === 'object') {
+                        return Object.values(data); // Convert object to array
+                    }
+                    return []; // Fallback for invalid data
+                }
+
+                // Update the lesson keys display
                 function updateLessonKeys() {
                     let lessonKey = document.querySelector("#lesson-keys");
                     let lessons_text = lessons[lessonIndex].lesson;
@@ -319,6 +334,7 @@
                     });
                 }
 
+                // Check for mistakes in the typed text
                 function checkMistakes() {
                     let lessonText = lessons[lessonIndex].lesson.repeat(5);
                     let mistakeCount = 0;
@@ -335,6 +351,7 @@
                     accuracy = ((typedText.length - mistakes) / typedText.length) * 100;
                 }
 
+                // Update the WPM (Words Per Minute) display
                 function updateWPM() {
                     totalCharactersTyped = typedText.length;
                     let timeInMinutes = (new Date() - startTime) / 60000;
@@ -349,6 +366,7 @@
                     wpm_display.textContent = wpm;
                 }
 
+                // Start the timer
                 function startTimer() {
                     startTime = new Date();
                     timerInterval = setInterval(() => {
@@ -359,6 +377,7 @@
                     }, 1000);
                 }
 
+                // End the timer
                 function endTimer() {
                     clearInterval(timerInterval);
                     let timeDiff = new Date() - startTime;
@@ -367,6 +386,7 @@
                     updateWPM();
                 }
 
+                // Update the time display
                 function updateTimeDisplay(seconds) {
                     let minutes = Math.floor(seconds / 60);
                     let remainingSeconds = seconds % 60;
@@ -374,21 +394,26 @@
                     time_display.textContent = formattedTime;
                 }
 
+                // Set the current lesson
                 function setLesson(index) {
                     if (index >= lessons.length) {
                         alert("All lessons completed!");
-                        progressBar.style.backgroundColor = "green";
                         return;
                     }
 
                     let currentLesson = lessons[index];
+                    if (!currentLesson) {
+                        console.error("Lesson not found for index:", index);
+                        return;
+                    }
+
                     lesson_display.innerHTML = currentLesson.lesson.repeat(5);
                     typedText = "";
                     highlightLesson(index);
-
                     updateLessonKeys();
                 }
 
+                // Highlight the current lesson in the progress bar
                 function highlightLesson(index) {
                     let elements = [one, two, three, four, five];
                     elements.forEach((el, i) => {
@@ -396,6 +421,7 @@
                     });
                 }
 
+                // Update the display with colored text
                 function updateDisplay() {
                     let lessonText = lessons[lessonIndex].lesson.repeat(5);
                     let coloredText = lessonText.split('').map((char, i) => {
@@ -411,7 +437,7 @@
                     checkMistakes();
 
                     if (typedText.length === lessonText.length) {
-                        let lessonId = (lessons[lessonIndex].id);
+                        let lessonId = lessons[lessonIndex].id;
                         let userId = @json(auth()->user()->id);
                         endTimer();
                         updateWPM();
@@ -419,6 +445,7 @@
                         $(document).ready(function() {
                             var token = $('meta[name="csrf-token"]').attr('content');
 
+                            // Store achievement data
                             $.ajax({
                                 url: "{{ route('storeAchievement') }}",
                                 type: "POST",
@@ -442,6 +469,7 @@
                                 }
                             });
 
+                            // Store experience points
                             $.ajax({
                                 url: "{{ route('storeExps') }}",
                                 type: "POST",
@@ -472,8 +500,10 @@
                     }
                 }
 
+                // Move to the next lesson
                 function goToNextLesson() {
                     lessonIndex++;
+                    console.log("Moving to Lesson Index:", lessonIndex); // Debug log
                     if (lessonIndex < lessons.length) {
                         setLesson(lessonIndex);
                     } else {
@@ -481,6 +511,7 @@
                     }
                 }
 
+                // Handle keydown events for typing
                 lesson_display.addEventListener("keydown", (event) => {
                     if (event.key.length === 1) {
                         event.preventDefault();
@@ -496,7 +527,10 @@
                     }
                 });
 
+                // Focus the lesson display when the page is clicked
                 document.addEventListener("click", () => lesson_display.focus());
+
+                // Initialize the first lesson
                 setLesson(lessonIndex);
             });
         </script>

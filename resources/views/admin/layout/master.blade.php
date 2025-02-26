@@ -12,12 +12,6 @@
         Admin
     </h1>
     <ul>
-        <a href="">
-            <li>Dashboard</li>
-        </a>
-        <a href="{{route('redirectAddChallenges')}}">
-            <li>Challenges</li>
-        </a>
         <a href="{{route('redirectAddLessons')}}">
             <li>Lessons</li>
         </a>

@@ -37,12 +37,6 @@ class UserController extends Controller
         return view('user.lesson', compact('lesson'));
     }
 
-    public function userChallengePage()
-    {
-        $challenges = Chllenges::get();
-        return view('user.challenge',compact('challenges'));
-    }
-
     public function profile()
     {
         $user = Auth::user();
