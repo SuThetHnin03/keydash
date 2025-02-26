@@ -23,7 +23,7 @@
         <div class="track">
             <div class="keys">
                 <span>Keys:</span>
-                <ul id="lesson-keys">
+                <ul id="lesson-keys" style="color: white">
 
                 </ul>
             </div>
@@ -265,20 +265,118 @@
             document.addEventListener("DOMContentLoaded", () => {
                 let progressBar = document.querySelector("#progress");
                 let lesson_display = document.querySelector("#lesson_display");
-                const lessons = @json($lesson); // Laravel blade syntax for passing data
+                let mistakes_display = document.querySelector("#mistakes");
+                let wpm_display = document.querySelector("#wpm");
+                let time_display = document.querySelector("#time");
+                const lessons = @json($lesson);
                 let lessonIndex = 0;
                 let typedText = "";
+                let formattedTime = "";
+                let startTime, endTime;
+                let totalCharactersTyped = 0;
+                let mistakes = 0;
+                let accuracy;
+                let time;
+                let timerInterval;
+                let total_exp = 0;
 
-                console.log("Lessons:", lessons); // Debugging output
+                const pathParts = window.location.pathname.split('/');
+                const lessonId = pathParts[3];
+
+                if(lessonId == 1){
+                    total_exp = 5;
+                }else if(lessonId == 2){
+                    total_exp = 10;
+                }else if(lessonId == 3){
+                    total_exp = 15;
+                }else if(lessonId == 4){
+                    total_exp = 20;
+                }else if(lessonId == 5){
+                    total_exp = 25;
+                }
+
+                console.log("Lessons:", lessons);
 
                 lesson_display.setAttribute("contenteditable", "true");
                 lesson_display.setAttribute("tabindex", "0");
                 lesson_display.focus();
 
+                function updateLessonKeys() {
+                    let lessonKey = document.querySelector("#lesson-keys");
+                    let lessons_text = lessons[lessonIndex].lesson;
+
+                    // Clear the current lesson key display
+                    lessonKey.innerHTML = '';
+
+                    // Remove spaces and split the lesson text into unique characters
+                    let lessonKeys = new Set(lessons_text.replace(/\s/g, '').split(''));
+
+                    // Create and append each unique key as a list item
+                    lessonKeys.forEach((key) => {
+                        let li = document.createElement("li");
+                        li.textContent = key;
+                        lessonKey.appendChild(li);
+                    });
+                }
+
+                function checkMistakes() {
+                    let lessonText = lessons[lessonIndex].lesson.repeat(5);
+                    let mistakeCount = 0;
+
+                    // Count mistakes in typedText
+                    for (let i = 0; i < typedText.length; i++) {
+                        if (typedText[i] !== lessonText[i]) {
+                            mistakeCount++;
+                        }
+                    }
+
+                    mistakes = mistakeCount;
+                    mistakes_display.textContent = mistakes;
+                    accuracy = ((typedText.length - mistakes) / typedText.length) * 100;
+                }
+
+                function updateWPM() {
+                    totalCharactersTyped = typedText.length;
+                    let timeInMinutes = (new Date() - startTime) / 60000;
+
+                    if (timeInMinutes <= 0) {
+                        wpm_display.textContent = 0;
+                        return;
+                    }
+
+                    // Divide characters by 5 (average word length) and divide by time in minutes
+                    let wpm = Math.round((totalCharactersTyped / 5) / timeInMinutes);
+                    wpm_display.textContent = wpm;
+                }
+
+                function startTimer() {
+                    startTime = new Date();
+                    timerInterval = setInterval(() => {
+                        let timeDiff = new Date() - startTime;
+                        let seconds = Math.floor(timeDiff / 1000);
+                        updateTimeDisplay(seconds);
+                        updateWPM();
+                    }, 1000);
+                }
+
+                function endTimer() {
+                    clearInterval(timerInterval);
+                    let timeDiff = new Date() - startTime;
+                    let seconds = Math.floor(timeDiff / 1000);
+                    updateTimeDisplay(seconds);
+                    updateWPM();
+                }
+
+                function updateTimeDisplay(seconds) {
+                    let minutes = Math.floor(seconds / 60);
+                    let remainingSeconds = seconds % 60;
+                    formattedTime = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+                    time_display.textContent = formattedTime;
+                }
+
                 function setLesson(index) {
                     if (index >= lessons.length) {
                         alert("All lessons completed!");
-
                         progressBar.style.backgroundColor = "green";
                         return;
                     }
@@ -287,6 +385,8 @@
                     lesson_display.innerHTML = currentLesson.lesson.repeat(5);
                     typedText = "";
                     highlightLesson(index);
+
+                    updateLessonKeys();
                 }
 
                 function highlightLesson(index) {
@@ -297,7 +397,6 @@
                 }
 
                 function updateDisplay() {
-                    let lessonKey = document.querySelector("#lesson-keys");
                     let lessonText = lessons[lessonIndex].lesson.repeat(5);
                     let coloredText = lessonText.split('').map((char, i) => {
                         if (i < typedText.length) {
@@ -307,52 +406,71 @@
                             `<span>${char}</span>`;
                     }).join("");
 
-                    console.log();
-
                     lesson_display.innerHTML = coloredText;
 
+                    checkMistakes();
+
                     if (typedText.length === lessonText.length) {
-                        setTimeout(() => {
-                            alert("Successfully finished!");
-                            goToNextLesson();
+                        let lessonId = (lessons[lessonIndex].id);
+                        let userId = @json(auth()->user()->id);
+                        endTimer();
+                        updateWPM();
 
-                            let lessonId = (lessons[lessonIndex].id -1); // Get lesson ID
-                            let userId = @json(auth()->user()->id); // Get user ID
+                        $(document).ready(function() {
+                            var token = $('meta[name="csrf-token"]').attr('content');
 
-                            console.log("lesson_id" + (lessonId));
-                            console.log("user_id" + userId);
-
-
-
-                            $(document).ready(function() {
-                                // Get CSRF token from the meta tag
-                                var token = $('meta[name="csrf-token"]').attr('content');
-
-                                $.ajax({
-                                    url: "{{ route('storeData') }}",
-                                    type: "POST",
-                                    data: {
-                                        lesson_id: lessonId,
-                                        user_id: userId
-                                    },
-                                    headers: {
-                                        'X-CSRF-TOKEN': token // Add CSRF token to the request headers
-                                    },
-                                    success: function(response) {
-                                        console.log(response);
-                                    },
-                                    error: function(error) {
-                                        console.log(error);
-                                    }
-                                });
-
+                            $.ajax({
+                                url: "{{ route('storeAchievement') }}",
+                                type: "POST",
+                                data: {
+                                    user_id: userId,
+                                    lesson_id: lessonId,
+                                    wpm: JSON.stringify(wpm_display.textContent),
+                                    duration: String(formattedTime),
+                                    accuracy: String(accuracy),
+                                    typos: String(mistakes),
+                                    total_words: String(lessonText.length)
+                                },
+                                headers: {
+                                    'X-CSRF-TOKEN': token
+                                },
+                                success: function(response) {
+                                    console.log(response);
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
                             });
 
+                            $.ajax({
+                                url: "{{ route('storeExps') }}",
+                                type: "POST",
+                                data: {
+                                    user_id: userId,
+                                    total_exp: total_exp
+                                },
+                                headers: {
+                                    'X-CSRF-TOKEN': token
+                                },
+                                success: function(response) {
+                                    console.log(response);
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                            });
+                        });
+
+                        setTimeout(() => {
+                            alert("Successfully finished!");
+                            time_display.textContent = "00:00";
+                            wpm_display.textContent = "0";
+                            mistakes_display.textContent = "0";
+
+                            goToNextLesson();
                         }, 200);
                     }
                 }
-
-
 
                 function goToNextLesson() {
                     lessonIndex++;
@@ -367,6 +485,7 @@
                     if (event.key.length === 1) {
                         event.preventDefault();
                         if (typedText.length < lessons[lessonIndex].lesson.repeat(5).length) {
+                            if (typedText.length === 0) startTimer();
                             typedText += event.key;
                             updateDisplay();
                         }

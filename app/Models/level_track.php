@@ -9,6 +9,6 @@ class level_track extends Model
     //
     protected $fillable = [
         'user_id',
-        'level_id'
+        'lesson_id'
     ];
 }

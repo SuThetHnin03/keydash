@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\lesson;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -23,7 +23,7 @@ class AdminController extends Controller
 
         Lesson::create([
             'level_id' => $request->lvl_lessons,
-            'words' => $request->lesson
+            'lesson' => $request->lesson
         ]);
 
         return back();

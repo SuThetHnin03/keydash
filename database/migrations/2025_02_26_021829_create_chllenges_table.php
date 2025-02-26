@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('weekly_exps', function (Blueprint $table) {
+        Schema::create('chllenges', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('total_exp');
+            $table->string('challenges');
+            $table->integer('exp');
+            $table->string('time');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('weekly_exps');
+        Schema::dropIfExists('chllenges');
     }
 };

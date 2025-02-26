@@ -9,7 +9,7 @@ class level_achievement extends Model
     //
     protected $fillable = [
         'user_id',
-        'level_id',
+        'lesson_id',
        'wpm',
        'duration',
         'accuracy',

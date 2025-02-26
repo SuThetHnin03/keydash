@@ -4,9 +4,16 @@
 
     <div class="hightscore">
         <h3 class="title1">Highest Score:</h3>
-        <div class="level level-box1">
-            157wpm with 92.5% accuracy
+
+           <div class="level level-box1">
+            @if ($best == null)
+            <h5>No record yet</h5>
+            @else
+            {{str_replace('"', '', $best['wpm'])}} wpm with {{ round($best->accuracy, 2) }}
+            accuracy
+            @endif
         </div>
+
     </div>
 
     <div class="skills">
@@ -28,6 +35,7 @@
                             </div>
                         </div>
                     </a>
+                  <a href="{{route('userLesson', ['id'=> '2'])}}">
                     <div class="stage stage2" id="B_2">
                         <span>2</span>
                         <div class="indicators">
@@ -38,6 +46,7 @@
                             <span class="indicator"></span>
                         </div>
                     </div>
+                  </a>
                     <div class="stage stage3" id="1_3">
                         <span>3</span>
                         <div class="indicators">

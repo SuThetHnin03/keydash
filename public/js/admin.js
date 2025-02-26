@@ -28,7 +28,7 @@ function getLevels(event) {
         let optText = document.createTextNode(`${lvl}_${i}`)
 
         opt.appendChild(optText);
-        opt.setAttribute('value', `${lvl}_${i}`);
+        opt.setAttribute('value', `${i}`);
 
         lvlLessons.appendChild(opt)
     }
@@ -40,3 +40,6 @@ let lvlLessons = document.querySelector("#lvl-lessons");
 level.addEventListener('change', getLevels)
 
 getLevels()
+
+console.log(lvlLessons.value);
+
