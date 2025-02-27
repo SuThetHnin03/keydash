@@ -247,23 +247,23 @@ body.dashboard {
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
     transition: right 0.3s ease;
     z-index: 1000;
-  }
+}
 
-  .popup.show {
+.popup.show {
     right: 0;
-  }
+}
 
-  .popup-content {
+.popup-content {
     padding: 20px;
-  }
+}
 
-  .popup .close {
+.popup .close {
     cursor: pointer;
     font-size: 24px;
     position: absolute;
     top: 10px;
     right: 15px;
-  }
+}
 
 
 /* home */
@@ -274,7 +274,7 @@ body.dashboard {
     margin-left: 25px;
 }
 
-.nav-end .friend{
+.nav-end .friend {
     margin-top: 7px;
 }
 
@@ -286,38 +286,77 @@ body.dashboard {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    grid-gap: 25px;
-    margin: 25px 50px;
+    grid-gap: 30px;
+    margin: 0px 50px;
+
 }
 
 .box1 {
     grid-column: 1 / 4;
     grid-row: 1;
-    background-color: lightblue;
+    border-radius: 25px;
+    background-color: #EC8A8325;
+    border: 1px solid #EC8A83;
+    display: flex;
+    align-items: center;
+
+}
+
+.box1 ul {
+    width: 100%;
+    color: #39D353;
 }
 
 .box2 {
     grid-column: 4 / 5;
     grid-row: 1 / 4;
-    background-color: lightgreen;
+    border-radius: 25px;
+    background-color: #F9F17625;
+    border: 1px solid #F9F176;
 }
 
 .box3 {
     grid-column: 1 / 2;
     grid-row: 2 / 5;
+    border-radius: 25px;
     background-color: lightcoral;
+    background-color: #8BE59D25;
+    border: 1px solid #8BE59D;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.box3 .tracker{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.box3 .tracker span img{
+    margin:0 25%;
+}
+
+.box3 input{
+    width: 80%;
 }
 
 .box4 {
     grid-column: 2 / 4;
     grid-row: 2 / 5;
-    background-color: lightyellow;
+    border-radius: 25px;
+    background-color: #6AB4F125;
+    border: 1px solid #6AB4F1;
 }
 
 .box5 {
     grid-column: 4 / 5;
     grid-row: 4;
-    background-color: lightpink;
+    border-radius: 25px;
+    background-color: #A983D825;
+    border: 1px solid #A983D8;
 }
 
 .hero .box1 ul {
@@ -414,7 +453,7 @@ body.dashboard {
     position: relative;
 }
 
-.stage-lock{
+.stage-lock {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -707,7 +746,7 @@ h1 {
 
 .modal {
     display: none;
-     position: fixed;
+    position: fixed;
     z-index: 1;
     left: 0;
     top: -100px;
@@ -728,7 +767,7 @@ h1 {
     position: relative;
 }
 
-.modal-content h2{
+.modal-content h2 {
     margin: 15px 0;
     text-align: center
 }
@@ -738,7 +777,7 @@ h1 {
     display: flex
 }
 
-.modal-content form input{
+.modal-content form input {
     padding: 5px 2px;
     border-radius: 5px
 }
@@ -759,7 +798,7 @@ h1 {
     cursor: pointer;
 }
 
-.profile-right .profile-badges{
+.profile-right .profile-badges {
     display: flex;
     justify-content: space-between;
 }
@@ -770,7 +809,7 @@ h1 {
 .emerald,
 .ruby,
 .sapphire,
-.diamond{
+.diamond {
     max-width: 140px;
     display: flex;
     flex-direction: column;
@@ -781,24 +820,24 @@ h1 {
 }
 
 
-.profile-badges .cover{
+.profile-badges .cover {
     border-radius: 25px;
     position: absolute;
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: center;
-     align-items: center;
-     background-color: #00000099;
-     border: 1px solid 000000;
+    align-items: center;
+    background-color: #00000099;
+    border: 1px solid 000000;
 }
 
-.profile-right h1{
+.profile-right h1 {
     padding-top: 0px;
     text-align: start;
 }
 
-.analysis{
+.analysis {
     margin-top: 25px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -811,12 +850,12 @@ h1 {
 .analysis .exps,
 .analysis .analysict,
 .analysis .friends,
-.analysis .top3{
+.analysis .top3 {
     border-radius: 15px;
     padding: 15px;
 }
 
-.analysis .id{
+.analysis .id {
     height: 115px;
     background-color: #EC8A8325;
     border: 1px solid #EC8A83;
@@ -824,35 +863,35 @@ h1 {
     grid-row: 1/1;
 }
 
-.analysis .joined{
+.analysis .joined {
     background-color: #F9F17625;
     border: 1px solid #F9F176;
     grid-column: 1/1;
     grid-row: 2/2;
 }
 
-.analysis .exps{
+.analysis .exps {
     background-color: #8BE59D25;
     border: 1px solid #8BE59D;
     grid-column: 1/1;
     grid-row: 3/3;
 }
 
-.analysis .analysict{
+.analysis .analysict {
     background-color: #6AB4F125;
     border: 1px solid #6AB4F1;
     grid-column: 2/5;
     grid-row: 1/3;
 }
 
-.analysis .friends{
+.analysis .friends {
     background-color: #A983D825;
     border: 1px solid #A983D8;
     grid-column: 2/4;
     grid-row: 3/3;
 }
 
-.analysis .top3{
+.analysis .top3 {
     background-color: #FFAD8525;
     border: 1px solid #FFAD85;
     grid-column: 4/5;
@@ -864,48 +903,50 @@ h1 {
     display: grid;
     grid-template-columns: 300px 1fr;
     gap: 15px;
-  }
+}
 
-  .leaderboard .leaderboard-left {
+.leaderboard .leaderboard-left {
     display: flex;
     flex-direction: column;
-  }
+}
 
-  .leaderboard-right .title{
+.leaderboard-right .title {
     display: flex;
     justify-content: space-between;
     padding: 15px;
-  }
+}
 
-  .leaderboard table {
+.leaderboard table {
     width: 90%;
     margin: 0 5%;
     margin-top: 15px;
-  }
+}
 
-  .leaderboard-right,
-  .leaderboard-left .topThree,
-  .leaderboard-left .you {
+.leaderboard-right,
+.leaderboard-left .topThree,
+.leaderboard-left .you {
     background-color: #8707AC45;
     border: 1px solid #8707AC;
     border-radius: 25px;
-  }
+}
 
-  .leaderboard-left .you{
+.leaderboard-left .you {
     margin-top: 25px;
-  }
+}
 
-  table, td, tr{
+table,
+td,
+tr {
     text-align: center;
-  }
+}
 
-  td {
+td {
     padding: 15px;
-  }
+}
 
-  input[type="search"] {
+input[type="search"] {
     padding: 7px 5px;
     border-radius: 10px;
     background-color: #ffffff15;
     border: none;
-  }
+}

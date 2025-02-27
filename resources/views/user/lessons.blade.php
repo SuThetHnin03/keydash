@@ -23,7 +23,7 @@
                 <!-- start -->
                 <div class="title">Basics</div>
                 <div class="stages">
-                    <a @if($level_tracks >=0) href="{{route('userLesson', ['id'=> 1])}}" @endif >
+                    <a @if($level_tracks >=0) href="{{route('userLesson', ['id'=> 1, 'lesson_start_id' => 1 ,'lesson_end_id' => 5])}}" @endif >
                         <div class="stage stage1" id="1">
                             <div class="stage-lock" @if($level_tracks >=0) style="display:none" @endif>
                                 <i data-feather="lock"></i>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </a>
-                  <a @if($level_tracks >=5) href="{{route('userLesson', ['id'=> 1])}} @endif ">
+                  <a @if($level_tracks >=5) href="{{route('userLesson', ['id'=> 1, 'lesson_start_id' => 6, 'lesson_end_id' => 10])}} @endif ">
                     <div class="stage stage2" id="B_2">
                         <div class="stage-lock" @if($level_tracks >=5) style="display:none" @endif>
                             <i data-feather="lock"></i>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                   </a>
-                   <a @if($level_tracks >=10) href="{{route('userLesson', ['id'=> 1])}} @endif ">
+                   <a @if($level_tracks >=10) href="{{route('userLesson', ['id'=> 1, 'lesson_start_id' => 11, 'lesson_end_id' => 15])}} @endif ">
                     <div class="stage stage3" id="1_3">
                         <div class="stage-lock" >
                             <i data-feather="lock"></i>
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                    </a>
-                    <a @if($level_tracks >=15) href="{{route('userLesson', ['id'=> 1])}}" @endif >
+                    <a @if($level_tracks >=15) href="{{route('userLesson', ['id'=> 1, 'lesson_start_id' => 16, 'lesson_end_id' => 20])}}" @endif >
                         <div class="stage stage4" id="1_4">
                             <div class="stage-lock" @if($level_tracks >=15) style="display:none" @endif>
                                 <i data-feather="lock"></i>
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                     </a>
-                   <a @if($level_tracks >=20) href="{{route('userLesson', ['id'=> 1])}}" @endif >
+                   <a @if($level_tracks >=20) href="{{route('userLesson', ['id'=> 1, 'lesson_start_id' => 21, 'lesson_end_id' => 25])}}" @endif >
                     <div class="stage stage5" id="1_5">
                         <div class="stage-lock" @if($level_tracks >=20) style="display:none" @endif>
                             <i data-feather="lock"></i>

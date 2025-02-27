@@ -2,28 +2,33 @@
 
 namespace App\Http\Controllers\User;
 
+use id;
+use Carbon\Carbon;
 use Monolog\Level;
 use App\Models\exp;
 use App\Models\User;
 use App\Models\Lesson;
 use App\Models\friends;
 use App\Models\Chllenges;
+use App\Models\Level_track;
 use Illuminate\Http\Request;
 use App\Models\level_achievement;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Level_track;
+
 
 class UserController extends Controller
 {
     //
     public function userHomePage()
     {
+        $dailyScores = $this->dailyScores();
         $users = $this->leaderboardList();
         $exps = $this->analysis();
         $best = $this->highestScore();
-        return view('user.home', compact('best', 'exps', 'users'));
+
+        return view('user.home', compact('best', 'exps', 'users', 'dailyScores'));
     }
 
     public function userLessonsPage()
@@ -36,9 +41,11 @@ class UserController extends Controller
         return view('user.lessons', compact('best', 'level_tracks'));
     }
 
-    public function userLessonPage($id)
+    public function userLessonPage($id,$lesson_start_id,$lesson_end_id)
     {
-        $lesson = Lesson::get()->where('level_id', $id);
+        $lesson = Lesson::where('level_id', $id)
+        ->whereBetween('id', [$lesson_start_id, $lesson_end_id])
+        ->get();
         // dd($lesson);
         return view('user.lesson', compact('lesson'));
     }
@@ -232,6 +239,8 @@ class UserController extends Controller
         return $best;
     }
 
+
+
     private function analysis()
     {
         $exps = exp::where('user_id', auth()->user()->id)
@@ -257,4 +266,81 @@ class UserController extends Controller
             ->get();
         return $users;
     }
+
+    private function dailyScores()
+{
+    // Get today's and yesterday's dates
+    $today = now()->startOfDay();
+    $yesterday = now()->subDay()->startOfDay();
+
+    // Fetch records for today and yesterday
+    $todayRecords = level_achievement::where('user_id', Auth::user()->id)
+        ->where('created_at', '>=', $today)
+        ->where('created_at', '<', $today->copy()->addDay())
+        ->get();
+
+    $yesterdayRecords = level_achievement::where('user_id', Auth::user()->id)
+        ->where('created_at', '>=', $yesterday)
+        ->where('created_at', '<', $today)
+        ->get();
+
+    // Constants for calculation
+    $max_wpm = 100;
+    $max_duration = 60; // seconds
+    $w_wpm = 0.4;
+    $w_accuracy = 0.4;
+    $w_duration = 0.1;
+    $w_typos = 0.1;
+
+    // Function to calculate the best record based on weighted score
+    $calculateBestRecord = function($records) use ($max_wpm, $max_duration, $w_wpm, $w_accuracy, $w_duration, $w_typos) {
+        $best = null;  // Variable to hold the best record
+        $max_score = -INF;  // Start with the lowest possible value
+
+        foreach ($records as $record) {
+            // Convert duration (format: "00:09") to seconds
+            [$minutes, $seconds] = explode(':', $record->duration);
+            $duration_in_seconds = ((int)$minutes * 60) + (int)$seconds;
+
+            // Cast necessary fields
+            $wpm = (float)$record->wpm;
+            $accuracy = (float)$record->accuracy;
+            $typos = (int)$record->typos;
+            $total_words = (int)$record->total_words;
+
+            // Prevent division by zero
+            $total_words = $total_words > 0 ? $total_words : 1;
+
+            // Normalize and calculate scores
+            $wpm_score = ($wpm / $max_wpm) * 100;
+            $accuracy_score = $accuracy;
+            $duration_score = (($max_duration - $duration_in_seconds) / $max_duration) * 100;
+            $typo_score = ((($total_words - $typos) / $total_words) * 100);
+
+            // Final weighted score
+            $final_score = ($wpm_score * $w_wpm) +
+                ($accuracy_score * $w_accuracy) +
+                ($duration_score * $w_duration) +
+                ($typo_score * $w_typos);
+
+            // Check if this score is the highest
+            if ($final_score > $max_score) {
+                $max_score = $final_score;
+                $best = $record;
+            }
+        }
+
+        return $best;
+    };
+
+    // Calculate best records for today and yesterday
+    $todayBest = $calculateBestRecord($todayRecords);
+    $yesterdayBest = $calculateBestRecord($yesterdayRecords);
+
+    return [
+        'today' => $todayBest,
+        'yesterday' => $yesterdayBest,
+    ];
+}
+
 }
