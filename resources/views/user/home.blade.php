@@ -246,7 +246,7 @@
 
 
 
-                    if (dailyScores.yesterday != null || dailyScores.today != null) {
+                    if (dailyScores.yesterday != null && dailyScores.today != null) {
                         yest_wpm = dailyScores.yesterday.wpm.replace(/"/g, "");
                         yest_accuracy = dailyScores.yesterday.accuracy;
                         yest_total_words = dailyScores.yesterday.total_words;
@@ -256,6 +256,30 @@
                         today_accuracy = dailyScores.today.accuracy;
                         today_total_words = dailyScores.today.total_words;
                         today_typos = dailyScores.today.typos;
+                    } else if (dailyScores.yesterday != null && dailyScores.today == null) {
+
+                        yest_wpm = dailyScores.yesterday.wpm.replace(/"/g, "");
+                        yest_accuracy = dailyScores.yesterday.accuracy;
+                        yest_total_words = dailyScores.yesterday.total_words;
+                        yest_typos = dailyScores.yesterday.typos;
+
+                        today_wpm = 0;
+                        today_accuracy = 0;
+                        today_total_words = 0;
+                        today_typos = 0;
+
+                    } else if (dailyScores.yesterday == null && dailyScores.today != null) {
+
+                        yest_wpm = 0,
+                            yest_accuracy = 0,
+                            yest_total_words = 0,
+                            yest_typos = 0,
+
+                            today_wpm = dailyScores.today.wpm.replace(/"/g, "");
+                        today_accuracy = dailyScores.today.accuracy;
+                        today_total_words = dailyScores.today.total_words;
+                        today_typos = dailyScores.today.typos;
+
                     } else {
                         yest_wpm = 0,
                             yest_accuracy = 0,

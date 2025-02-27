@@ -9,12 +9,13 @@
 
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
 </head>
 
 <body>
     <div class="back-arrow">
-        <i data-feather="arrow-left"></i>
+        <a href="{{ url()->previous() }}"> <i data-feather="arrow-left"></i></a>
     </div>
     <div class="profilePage">
         <div class="profile-left">
@@ -40,25 +41,15 @@
                         alt="Profile Image">
                 @endif
 
-                <h5>8 <span>friends</span></h5>
             </div>
-            <div class="daily-infos">
-                <div class="streak">
-                    <i data-feather="heart"></i>
-                    <p>4 <span>days</span></p>
-                </div>
-                <div class="ranks">
-                    <i data-feather="bar-chart"></i>
-                    <p>5 <span>rank</span></p>
-                </div>
-            </div>
-            <div class="profile-infos">
+
+            <div class="profile-infos" style="margin-top:50px;">
                 <ul>
                     <li><span>Name:</span> <span id="profileName">{{ $user->name }}</span></li>
                     <li><span>Mail:</span> {{ $user->email }}</li>
                 </ul>
             </div>
-            <div class="social-media">
+            <div class="social-media" style="margin-top:50px;">
                 <ul>
                     <li>
                         <i data-feather="facebook"></i>
@@ -73,106 +64,205 @@
         </div>
         <div class="profile-right">
             <h1>Your Rank</h1>
+
             <div class="profile-badges">
-                <div class="bronze">
-                    <div class="cover" @if ($exps >= 0 && $exps <= 200) style="display: none" @endif>
+                @foreach (['bronze', 'silver', 'gold', 'emerald', 'ruby', 'sapphire', 'diamond'] as $index => $badge)
+                @php
+                    $expThresholds = [0, 100, 300, 500, 700, 1000, 1300, 1600];
+                    $expRequired = $expThresholds[$index];
+                    $nextExpRequired = $expThresholds[$index + 1] ?? $expThresholds[$index]; // Use the next threshold for the max
+                @endphp
+                <div class="{{ $badge }}">
+                    <div class="cover {{ $exps < $expRequired ? 'locked' : 'unlocked' }}">
                         <i data-feather="lock"></i>
                     </div>
-                    <img src="{{ asset('images/bronze.png') }}" alt="" width="50%" style="margin-top:10px;">
-                    <h5>Bronze</h5>
-                    <input type="range" name="" id="" value="{{ $exps }}" min="0"
-                        max="100">
-                    <span>{{ $exps }}/200</span>
+
+                    <img src="{{ asset('images/' . $badge . '.png') }}" alt="" width="50%" style="margin-top:10px;">
+                    <h5>{{ ucfirst($badge) }}</h5>
+                    <input type="range" value="{{ $exps }}" min="0" max="{{ $nextExpRequired }}" disabled>
+                    <span>{{ $exps }}/{{ $nextExpRequired }}</span>
                 </div>
-                <div class="silver">
-                    <div class="cover" @if ($exps >= 201 && $exps <= 300) style="display: none" @endif>
-                        <i data-feather="lock"></i>
-                    </div>
-                    <img src="{{ asset('images/silver.png') }}" alt="" width="50%" style="margin-top:10px;">
-                    <h5>Silver</h5>
-                    <input type="range" name="" id="" value="{{ $exps }}" min="0"
-                        max="300">
-                    <span>{{ $exps }}/300</span>
-                </div>
-                <div class="gold">
-                    <div class="cover" @if ($exps >= 301 && $exps <= 500) style="display: none" @endif>
-                        <i data-feather="lock"></i>
-                    </div>
-                    <img src="{{ asset('images/gold.png') }}" alt="" width="50%" style="margin-top:10px;">
-                    <h5>Gold</h5>
-                    <input type="range" name="" id="" value="{{ $exps }}" min="0"
-                        max="500">
-                    <span>{{ $exps }}/500</span>
-                </div>
-                <div class="emerald">
-                    <div class="cover" @if ($exps >= 501 && $exps <= 700) style="display: none" @endif>
-                        <i data-feather="lock"></i>
-                    </div>
-                    <img src="{{ asset('images/emerald.png') }}" alt="" width="50%"
-                        style="margin-top:10px;">
-                    <h5>Emerald</h5>
-                    <input type="range" name="" id="" value="{{ $exps }}" min="0"
-                        max="700">
-                    <span>{{ $exps }}/700</span>
-                </div>
-                <div class="ruby">
-                    <div class="cover" @if ($exps >= 701 && $exps <= 1000) style="display: none" @endif>
-                        <i data-feather="lock"></i>
-                    </div>
-                    <img src="{{ asset('images/ruby.png') }}" alt="" width="50%" style="margin-top:10px;">
-                    <h5>Ruby</h5>
-                    <input type="range" name="" id="" value="{{ $exps }}" min="0"
-                        max="1000">
-                    <span>{{ $exps }}/1000</span>
-                </div>
-                <div class="sapphire">
-                    <div class="cover" @if ($exps >= 1001 && $exps <= 1300) style="display: none" @endif>
-                        <i data-feather="lock"></i>
-                    </div>
-                    <img src="{{ asset('images/sapphire.png') }}" alt="" width="50%"
-                        style="margin-top:10px;">
-                    <h5>Sapphire</h5>
-                    <input type="range" name="" id="" value="{{ $exps }}" min="0"
-                        max="1300">
-                    <span>{{ $exps }}/1300</span>
-                </div>
-                <div class="diamond">
-                    <div class="cover" @if ($exps >= 1301 && $exps <= 1600) style="display: none" @endif>
-                        <i data-feather="lock"></i>
-                    </div>
-                    <img src="{{ asset('images/diamond.png') }}" alt="" width="50%"
-                        style="margin-top:10px;">
-                    <h5>Diamond</h5>
-                    <input type="range" name="" id="" value="{{ $exps }}" min="0"
-                        max="1600">
-                    <span>{{ $exps }}/1600</span>
-                </div>
+            @endforeach
+
             </div>
+
 
             <div class="analysis">
                 <div class="id">
-                    <h2>ID</h2>
-                    <h1>{{ $user->user_code }}</h1>
+                    <h2 style="color:#39D353;">ID</h2>
+                    <h3 style="margin-top: 15px; text-align:center;">{{ $user->user_code }}</h3>
                 </div>
                 <div class="joined">
-                    <h2>Joined</h2>
-                    <h1>{{ $user->created_at->format('Y-m-d') }}</h1>
+                    <h2 style="color:#39D353;">Joined</h2>
+                    <h3 style="margin-top: 15px; text-align:center;">{{ $user->created_at->format('Y-m-d') }}</h3>
                 </div>
                 <div class="exps">
-                    <h2>Total Exps</h2>
-                    <h1>{{ $user->total_exp }}</h1>
+                    <h2 style="color:#39D353;">Total Exps</h2>
+                    <h3 style="margin-top: 15px; text-align:center;">{{ $user->total_exp ?? 0 }}</h3>
                 </div>
                 <div class="analysict">
-                    <h2>
+                    <canvas id="typingStatsChart"></canvas>
 
-                    </h2>
+                    <script>
+                        let yesterdayBest = @json($yesterdayBest);
+                        let todayBest = @json($todayBest);
+
+
+                        let yest_wpm = 0,
+                            yest_accuracy = 0,
+                            yest_total_words = 0,
+                            yest_typos = 0,
+                            today_wpm = 0,
+                            today_accuracy = 0,
+                            today_total_words = 0,
+                            today_typos = 0
+
+
+
+                        if (yesterdayBest != null && todayBest != null) {
+                            yest_wpm = yesterdayBest.wpm.replace(/"/g, "");
+                            yest_accuracy = yesterdayBest.accuracy;
+                            yest_total_words = yesterdayBest.total_words;
+                            yest_typos = yesterdayBest.typos;
+
+                            today_wpm = todayBest.wpm.replace(/"/g, "");
+                            today_accuracy = todayBest.accuracy;
+                            today_total_words = todayBest.total_words;
+                            today_typos = todayBest.typos;
+                        } else if (yesterdayBest != null && todayBest == null) {
+
+                            yest_wpm = yesterdayBest.wpm.replace(/"/g, "");
+                            yest_accuracy = yesterdayBest.accuracy;
+                            yest_total_words = yesterdayBest.total_words;
+                            yest_typos = yesterdayBest.typos;
+
+                            today_wpm = 0;
+                            today_accuracy = 0;
+                            today_total_words = 0;
+                            today_typos = 0;
+
+                        } else if (yesterdayBest == null && todayBest != null) {
+
+                            yest_wpm = 0,
+                                yest_accuracy = 0,
+                                yest_total_words = 0,
+                                yest_typos = 0,
+
+                                today_wpm = todayBest.wpm.replace(/"/g, "");
+                            today_accuracy = todayBest.accuracy;
+                            today_total_words = todayBest.total_words;
+                            today_typos = todayBest.typos;
+
+                        } else {
+                            yest_wpm = 0,
+                                yest_accuracy = 0,
+                                yest_total_words = 0,
+                                yest_typos = 0,
+                                today_wpm = 0,
+                                today_accuracy = 0,
+                                today_total_words = 0,
+                                today_typos = 0
+                        }
+
+
+                        const ctx = document.getElementById('typingStatsChart').getContext('2d');
+
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['WPM', 'Accuracy', 'Total Words', 'Typos'],
+                                datasets: [{
+                                        label: 'Yesterday',
+                                        data: [
+                                            yest_wpm, // Add commas here
+                                            yest_accuracy, // Add commas here
+                                            yest_total_words, // Add commas here
+                                            yest_typos // Add commas here
+                                        ],
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)',
+                                            'rgba(255, 205, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgb(255, 99, 132)',
+                                            'rgb(255, 159, 64)',
+                                            'rgb(255, 205, 86)',
+                                            'rgb(75, 192, 192)'
+                                        ],
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Today',
+                                        data: [
+                                            today_wpm, // Add commas here
+                                            today_accuracy, // Add commas here
+                                            today_total_words, // Add commas here
+                                            today_typos // Add commas here
+                                        ],
+                                        backgroundColor: [
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(201, 203, 207, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgb(75, 192, 192)',
+                                            'rgb(54, 162, 235)',
+                                            'rgb(153, 102, 255)',
+                                            'rgb(201, 203, 207)'
+                                        ],
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
                 </div>
                 <div class="friends">
-                    e
+                   @foreach ($friends as $f)
+                   <div class="account">
+                    @if ($f->profile != null)
+                    <img src="{{asset('uploads/profile_images/'.$f->profile)}}" alt="" width="50px" height="50px" style="object-position: center;">
+                    @else
+                    <img src="{{asset('images/user.png')}}" alt="" width="50px" height="50px" style="object-position: center;">
+                    @endif
+                    <p>{{$f->name}}</p>
+                   </div>
+
+                   @endforeach
                 </div>
                 <div class="top3">
-                    <h2>Top 3</h2>
-                    <h1>-</h1>
+                    <h2>Top 5</h2>
+                    <a href="{{ route('userLeaderboard') }}">
+                        <table style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th style="text-align: end; padding-right:15px;">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users->take(5) as $index => $user)
+                                    @if ($user->total_exp > 0)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td style="text-align: end">{{ $user->name }}</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </a>
                 </div>
             </div>
         </div>
@@ -250,7 +340,7 @@
                 type: "POST",
                 data: {
                     to_id: userId,
-                    from_id: {{auth()->user()->id}}
+                    from_id: {{ auth()->user()->id }}
                 },
                 headers: {
                     'X-CSRF-TOKEN': token

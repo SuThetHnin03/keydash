@@ -9,7 +9,7 @@
             @if ($best == null)
             <h5>No record yet</h5>
             @else
-            {{str_replace('"', '', $best['wpm'])}} wpm with {{ round($best->accuracy, 2) }}
+            {{str_replace('"', '', $best['wpm'])}} wpm with {{ round($best->accuracy, 2) }}%
             accuracy
             @endif
         </div>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="skills">
-        <h1>Skill Level</h1>
+        <h1 style="text-align:start;">Skill Level</h1>
         <div class="boxes">
             <div class="level level-box2">
                 <!-- start -->
@@ -249,7 +249,7 @@
     </div>
 
     <div class="others">
-        <h1 class="level-title3">Others</h1>
+        <h1 class="level-title3" style="text-align: start" >Others</h1>
         <div class="boxes">
             <div class="level level-box5">
                 <!-- start -->

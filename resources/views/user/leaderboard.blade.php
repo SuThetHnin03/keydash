@@ -3,7 +3,7 @@
     <div class="leaderboard">
         <div class="leaderboard-left">
             <div class="topThree">
-                <h3>Top 3 This Week</h3>
+                <h3 style="margin-left: 50px; margin-top:15px;">Top 3</h3>
                 <table>
                     <thead>
                         <tr>
@@ -13,24 +13,24 @@
                     </thead>
                     <tbody>
                         @foreach ($users->take(3) as $index => $user)
-
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td style="display:flex; align-items:center; justify-content: space-between; text-align: left;">
-                                    <a href="{{route('friendProfile', $user->id)}}">
-                                    @if ($user->profile != null)
-                                    <img src="{{ asset('uploads/profile_images/' . $user->profile) }}" alt=""
-                                        width="25px" height="25px"
-                                        style="border-radius: 25px; object-position:center;">
-                                @else
-                                    <img src="{{ asset('images/user.png') }}" alt="" width="25px"
-                                        height="25px" style="border-radius: 25px; object-position:center;">
-                                @endif
-                                    {{ $user->name }}
+                                <td style="display:flex; align-items:center; justify-content: start; text-align: left;">
+                                    <a href="{{ route('friendProfile', $user->id) }}"
+                                        style="display:flex; align-items:center;">
+                                        @if ($user->profile != null)
+                                            <img src="{{ asset('uploads/profile_images/' . $user->profile) }}" alt=""
+                                                width="25px" height="25px"
+                                                style="border-radius: 25px; object-position:center; margin-right:10px;">
+                                        @else
+                                            <img src="{{ asset('images/user.png') }}" alt="" width="25px"
+                                                height="25px"
+                                                style="border-radius: 25px; object-position:center; margin-right:10px;">
+                                        @endif
+                                        {{ $user->name }}
                                     </a>
                                 </td>
                             </tr>
-
                         @endforeach
                     </tbody>
                 </table>
@@ -46,22 +46,25 @@
                     <tbody>
                         @foreach ($users as $index => $user)
                             @if ($user->id == auth()->user()->id)
-
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td style="display:flex; align-items:center; justify-content: space-evenly;">
+                                    <td style="display:flex; align-items:center; justify-content: left;">
+                                        <a href="{{ route('friendProfile', $user->id) }}"
+                                            style="display:flex; align-items:center;">
                                         @if ($user->profile != null)
-                                            <img src="{{ asset('uploads/profile_images/' . $user->profile) }}" alt=""
-                                                width="25px" height="25px"
-                                                style="border-radius: 25px; object-position:center;">
-                                        @else
-                                            <img src="{{ asset('images/user.png') }}" alt="" width="25px"
-                                                height="25px" style="border-radius: 25px; object-position:center;">
+
+                                                <img src="{{ asset('uploads/profile_images/' . $user->profile) }}"
+                                                    alt="" width="25px" height="25px"
+                                                    style="border-radius: 25px; object-position:center; margin-right:15px;">
+                                            @else
+                                                <img src="{{ asset('images/user.png') }}" alt="" width="25px"
+                                                    height="25px"
+                                                    style="border-radius: 25px; object-position:center; margin-right:15px;">
                                         @endif
                                         {{ $user->name }}
+                                        </a>
                                     </td>
                                 </tr>
-
                             @endif
                         @endforeach
                     </tbody>
@@ -77,7 +80,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Players</th>
+                        <th style="text-align:left;">Players</th>
                         <th>Exp</th>
                     </tr>
                 </thead>
@@ -85,17 +88,23 @@
                     @foreach ($users->take(10) as $index => $user)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td style="display:flex; align-items:center; justify-content: space-evenly;">
+                            <td style="display:flex; align-items:center; justify-content: start;">
+                                <a href="{{ route('friendProfile', $user->id) }}"
+                                    style="display:flex; align-items:center;">
                                 @if ($user->profile != null)
-                                <img src="{{ asset('uploads/profile_images/' . $user->profile) }}" alt=""
-                                    width="25px" height="25px"
-                                    style="border-radius: 25px; object-position:center;">
-                            @else
-                                <img src="{{ asset('images/user.png') }}" alt="" width="25px"
-                                    height="25px" style="border-radius: 25px; object-position:center;">
-                            @endif
-                                {{ $user->name }}</td>
-                            <td>{{ $user->total_exp }}</td>
+
+                                        <img src="{{ asset('uploads/profile_images/' . $user->profile) }}" alt=""
+                                            width="25px" height="25px"
+                                            style="border-radius: 25px; object-position:center; margin-right:25px;">
+                                    @else
+                                        <img src="{{ asset('images/user.png') }}" alt="" width="25px"
+                                            height="25px"
+                                            style="border-radius: 25px; object-position:center; margin-right:25px;">
+                                @endif
+                                {{ $user->name }}
+                                </a>
+                            </td>
+                            <td>{{ $user->total_exp ?? 0 }}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -14,7 +14,7 @@
     </style>
 
     <div class="challenge">
-        <div class="lessons">
+        <div class="lessons" style="display:flex; justify-content:center; margin-top:25px; padding-right:50px;">
             <span class="lesson" id="one"></span>
             <span class="lesson" id="two"></span>
             <span class="lesson" id="three"></span>
@@ -29,18 +29,21 @@
                 </ul>
             </div>
             <div class="tracks">
-                <ul>
+                <ul style=" justify-content:end; margin-top:25px;">
                     <li><span id="wpm">0</span>wpm</li>
                     <li><span id="time">00:00</span></li>
                     <li><span id="mistakes">0</span>mistakes</li>
                 </ul>
             </div>
+
         </div>
 
         <div class="typing">
             <div class="text">
-                <span id="lesson_display" contenteditable="true">No Lesson Yet</span>
+                <span id="lesson_display" style="font-size: 2rem;" contenteditable="true">No Lesson Yet</span>
+
             </div>
+
             <div class="keyboard">
                 <div class="keyboard__row keyboard__row--h1">
                     <div data-key="27" class="key--word">
@@ -510,7 +513,15 @@
                         });
 
                         setTimeout(() => {
-                            alert("Successfully finished!");
+                            Swal.fire({
+                                position: "top-center",
+                                icon: "success",
+                                title: "Successfully finished!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+
                             time_display.textContent = "00:00";
                             wpm_display.textContent = "0";
                             mistakes_display.textContent = "0";
@@ -527,7 +538,13 @@
                     if (lessonIndex < lessons.length) {
                         setLesson(lessonIndex);
                     } else {
-                        alert("All lessons completed!");
+                        Swal.fire({
+                                position: "top-center",
+                                icon: "success",
+                                title: "All lessons completed from this level!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                     }
                 }
 

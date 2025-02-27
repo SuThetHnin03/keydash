@@ -71,6 +71,14 @@
                     console.log(error);
                 }
             });
+
+            Swal.fire({
+                                position: "top-start",
+                                icon: "success",
+                                title: "Accept Friend Succefully",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
         }
 
         function remove(id){
@@ -93,6 +101,13 @@
                     console.log(error);
                 }
             });
+            Swal.fire({
+                                position: "top-start",
+                                icon: "warning",
+                                title: "Remove friend request succefully",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
         }
     </script>
 
