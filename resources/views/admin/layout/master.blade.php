@@ -5,25 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Document</title>
+@yield('title')
+   <link rel="stylesheet" href="{{asset('css/style.css')}}">
+   <style>
+    .lessons{
+        display: flex;
+        flex-direction: column;
+        align-items: center
+    }
+    textarea,option,select{
+        background-color: #121212;
+        padding: 5px 7px;
+        border-radius: 7px;
+        margin-top: 25px;
+    }
+
+    ul{
+margin-top: 25px;
+text-align: end;
+margin-right: 50px;
+    }
+
+   </style>
 </head>
 <body>
-    <h1>
-        Admin
-    </h1>
+
     <ul>
-        <a href="{{route('redirectAddLessons')}}">
-            <li>Lessons</li>
-        </a>
-        <a href="">
+
+
             <li><form action="{{ route('signOut') }}" method="POST">
                 @csrf
                 <button type="submit">Logout</button>
             </form></li>
-        </a>
-        <a href="">
-            <li></li>
-        </a>
+
+
     </ul>
     @yield('content')
 </body>

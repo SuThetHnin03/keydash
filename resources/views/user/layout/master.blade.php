@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <title>Document</title>
+    @yield('title')
 </head>
 
 
@@ -114,7 +114,7 @@
     <!-- nav start -->
     <div class="nav">
         <div class="nav-start">
-            <p>Keydash</p>
+            <p style="font-size: 1.5rem; color:#39D353;">Keydash</p>
         </div>
         <div class="nav-mid">
             <ul>

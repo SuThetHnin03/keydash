@@ -1,3 +1,6 @@
+@section('title')
+<title>Leaderboard Page</title>
+@endsection
 @extends('user.layout.master')
 @section('content')
     <div class="leaderboard">
@@ -85,7 +88,7 @@
                     </tr>
                 </thead>
                 <tbody id="leaderboardBody">
-                    @foreach ($users->take(10) as $index => $user)
+                    @foreach ($users->take(5) as $index => $user)
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td style="display:flex; align-items:center; justify-content: start;">

@@ -1,3 +1,6 @@
+@section('title')
+<title>Lesson Page</title>
+@endsection
 @extends('user.layout.master')
 @section('content')
     <style>

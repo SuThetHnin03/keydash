@@ -1,3 +1,6 @@
+@section('title')
+<title>Home Page</title>
+@endsection
 @extends('user.layout.master')
 @section('content')
     <!-- hero start -->

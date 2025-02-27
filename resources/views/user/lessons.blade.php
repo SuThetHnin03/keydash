@@ -1,3 +1,6 @@
+@section('title')
+<title>Lessons Page</title>
+@endsection
 @extends('user.layout.master')
 @section('content')
 <div class="levels">
