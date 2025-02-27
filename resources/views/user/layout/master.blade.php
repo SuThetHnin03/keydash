@@ -20,6 +20,7 @@
 
         $friends = Friends::leftJoin('users', 'friends.from_id', '=', 'users.id')
             ->where('friends.to_id', auth()->user()->id)
+            ->where('status','0')
             ->select('users.name', 'friends.*')
             ->get();
     @endphp
@@ -103,7 +104,7 @@
             <ul>
                 <li><a href="{{ route('userHome') }}">Home</a></li>
                 <li><a href="{{ route('userLessons') }}">Lessons</a></li>
-                <li><a href="{{ route('userLessons') }}">Leaderboard</a></li>
+                <li><a href="{{ route('userLeaderboard') }}">Leaderboard</a></li>
             </ul>
         </div>
         <div class="nav-end">

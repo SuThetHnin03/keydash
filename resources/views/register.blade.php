@@ -25,7 +25,7 @@
                             <label for="name">Name</label>
                             <input type="text" name="name" id="name" placeholder="Enter your name">
                             @if ($errors->has('name'))
-                                <div class="error-message">{{ $errors->first('name') }}</div>
+                                <div class="error-message" style="color: red; font-size:12px; font-weight:bold;">{{ $errors->first('name') }}</div>
                             @endif
                         </div>
 
@@ -33,7 +33,7 @@
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="Enter your email">
                     @if ($errors->has('email'))
-                        <div class="error-message">{{ $errors->first('email') }}</div>
+                        <div class="error-message" style="color: red; font-size:12px; font-weight:bold;">{{ $errors->first('email') }}</div>
                     @endif
                 </div>
 
@@ -41,7 +41,7 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" placeholder="Enter your password">
                 @if ($errors->has('password'))
-                    <div class="error-message">{{ $errors->first('password') }}</div>
+                    <div class="error-message" style="color: rgb(255, 42, 42); fo font-weight:bold;nt-size:12px;">{{ $errors->first('password') }}</div>
                 @endif
             </div>
 
@@ -49,7 +49,7 @@
             <label for="password">Confirm Password</label>
             <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm your password">
             @if ($errors->has('confirmPassword'))
-                <div class="error-message">{{ $errors->first('confirmPassword') }}</div>
+                <div class="error-message" style="color: red; font-size:12px; font-weight:bold;">{{ $errors->first('confirmPassword') }}</div>
             @endif
         </div>
 

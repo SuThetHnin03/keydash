@@ -17,6 +17,7 @@ Route::group(["prefix" => 'user', 'middleware' => 'user'], function () {
 
     Route::post('/save-level-track', [LessonController::class, 'store'])->name('storeData');
     Route::post('/save-level-achievement', [LessonController::class, 'storeAchievement'])->name('storeAchievement');
+    Route::post('/save-level-track', [LessonController::class, 'storeLevelTrack'])->name('storeLevelTrack');
     Route::post('/store/exps', [LessonController::class, 'storeExps'])->name('storeExps');
     Route::post('/add-connection', [UserController::class, 'addConnection'])->name('addConnection');
 

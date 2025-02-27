@@ -59,6 +59,7 @@ class LessonController extends Controller
             return response()->json(['message' => 'Achievement updated successfully.']);
         }
 
+
         // If no record exists, create a new one
         level_achievement::create([
             'user_id' => $request->user_id,
@@ -69,6 +70,25 @@ class LessonController extends Controller
             'typos' => $request->typos,
             'total_words' => $request->total_words,
         ]);
+
+        return response()->json(['success' => true]);
+    }
+
+
+    public function storeLevelTrack(Request $request)
+    {
+        // Check if a record already exists with the same user_id and lesson_id
+        $existingAchievement = Level_track::where('user_id', $request->user_id)
+            ->where('lesson_id', $request->lesson_id)
+            ->first();
+
+        // If no record exists, create a new one
+        if (!$existingAchievement) {
+            Level_track::create([
+                'user_id' => $request->user_id,
+                'lesson_id' => $request->lesson_id,
+            ]);
+        }
 
         return response()->json(['success' => true]);
     }

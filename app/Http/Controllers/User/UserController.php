@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Monolog\Level;
 use App\Models\exp;
 use App\Models\User;
 use App\Models\Lesson;
@@ -12,6 +13,7 @@ use App\Models\level_achievement;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Level_track;
 
 class UserController extends Controller
 {
@@ -26,8 +28,12 @@ class UserController extends Controller
 
     public function userLessonsPage()
     {
+
+
         $best = $this->highestScore();
-        return view('user.lessons', compact('best'));
+        $level_tracks = Level_track::max('lesson_id');
+        // dd($highest_lesson_id);
+        return view('user.lessons', compact('best', 'level_tracks'));
     }
 
     public function userLessonPage($id)
@@ -83,7 +89,6 @@ class UserController extends Controller
 
         return back();
     }
-
 
     public function friendProfile($id)
     {

@@ -469,6 +469,26 @@
                                 }
                             });
 
+
+                            // Store achievement data
+                            $.ajax({
+                                url: "{{ route('storeLevelTrack') }}",
+                                type: "POST",
+                                data: {
+                                    user_id: userId,
+                                    lesson_id: lessonId,
+                                },
+                                headers: {
+                                    'X-CSRF-TOKEN': token
+                                },
+                                success: function(response) {
+                                    console.log(response);
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                            });
+
                             // Store experience points
                             $.ajax({
                                 url: "{{ route('storeExps') }}",

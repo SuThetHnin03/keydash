@@ -23,8 +23,11 @@
                 <!-- start -->
                 <div class="title">Basics</div>
                 <div class="stages">
-                    <a href="{{route('userLesson', ['id'=> '1'])}}">
+                    <a @if($level_tracks >=0) href="{{route('userLesson', ['id'=> 1])}}" @endif >
                         <div class="stage stage1" id="1">
+                            <div class="stage-lock" @if($level_tracks >=0) style="display:none" @endif>
+                                <i data-feather="lock"></i>
+                            </div>
                             <span>1</span>
                             <div class="indicators">
                                 <span class="indicator"></span>
@@ -35,8 +38,11 @@
                             </div>
                         </div>
                     </a>
-                  <a href="{{route('userLesson', ['id'=> 2])}}">
+                  <a @if($level_tracks >=5) href="{{route('userLesson', ['id'=> 1])}} @endif ">
                     <div class="stage stage2" id="B_2">
+                        <div class="stage-lock" @if($level_tracks >=5) style="display:none" @endif>
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>2</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -47,8 +53,11 @@
                         </div>
                     </div>
                   </a>
-                   <a href="{{route('userLesson', ['id'=> 3])}}">
+                   <a @if($level_tracks >=10) href="{{route('userLesson', ['id'=> 1])}} @endif ">
                     <div class="stage stage3" id="1_3">
+                        <div class="stage-lock" >
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>3</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -59,17 +68,26 @@
                         </div>
                     </div>
                    </a>
-                    <div class="stage stage4" id="1_4">
-                        <span>4</span>
-                        <div class="indicators">
-                            <span class="indicator"></span>
-                            <span class="indicator"></span>
-                            <span class="indicator"></span>
-                            <span class="indicator"></span>
-                            <span class="indicator"></span>
+                    <a @if($level_tracks >=15) href="{{route('userLesson', ['id'=> 1])}}" @endif >
+                        <div class="stage stage4" id="1_4">
+                            <div class="stage-lock" @if($level_tracks >=15) style="display:none" @endif>
+                                <i data-feather="lock"></i>
+                            </div>
+                            <span>4</span>
+                            <div class="indicators">
+                                <span class="indicator"></span>
+                                <span class="indicator"></span>
+                                <span class="indicator"></span>
+                                <span class="indicator"></span>
+                                <span class="indicator"></span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                   <a @if($level_tracks >=20) href="{{route('userLesson', ['id'=> 1])}}" @endif >
                     <div class="stage stage5" id="1_5">
+                        <div class="stage-lock" @if($level_tracks >=20) style="display:none" @endif>
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>5</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -79,6 +97,7 @@
                             <span class="indicator"></span>
                         </div>
                     </div>
+                   </a>
                 </div>
                 <!-- end -->
             </div>
@@ -87,6 +106,9 @@
                 <div class="title">Intermediate</div>
                 <div class="stages">
                     <div class="stage stage1">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>1</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -97,6 +119,9 @@
                         </div>
                     </div>
                     <div class="stage stage2">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>2</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -107,6 +132,9 @@
                         </div>
                     </div>
                     <div class="stage stage3">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>3</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -117,6 +145,9 @@
                         </div>
                     </div>
                     <div class="stage stage4">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>4</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -127,6 +158,9 @@
                         </div>
                     </div>
                     <div class="stage stage5">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>5</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -144,6 +178,9 @@
                 <div class="title">Advanced</div>
                 <div class="stages">
                     <div class="stage stage1">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>1</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -154,6 +191,9 @@
                         </div>
                     </div>
                     <div class="stage stage2">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>2</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -164,6 +204,9 @@
                         </div>
                     </div>
                     <div class="stage stage3">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>3</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -174,6 +217,9 @@
                         </div>
                     </div>
                     <div class="stage stage4">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>4</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -184,6 +230,9 @@
                         </div>
                     </div>
                     <div class="stage stage5">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>5</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -207,6 +256,9 @@
                 <div class="title">Content Focus</div>
                 <div class="stages">
                     <div class="stage stage1">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>1</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -217,6 +269,9 @@
                         </div>
                     </div>
                     <div class="stage stage2">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>2</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -227,6 +282,9 @@
                         </div>
                     </div>
                     <div class="stage stage3">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>3</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -237,6 +295,9 @@
                         </div>
                     </div>
                     <div class="stage stage4">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>4</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -247,6 +308,9 @@
                         </div>
                     </div>
                     <div class="stage stage5">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>5</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -264,6 +328,9 @@
                 <div class="title">Typing Techniques</div>
                 <div class="stages">
                     <div class="stage stage1">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>1</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -274,6 +341,9 @@
                         </div>
                     </div>
                     <div class="stage stage2">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>2</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -284,6 +354,9 @@
                         </div>
                     </div>
                     <div class="stage stage3">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>3</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -294,6 +367,9 @@
                         </div>
                     </div>
                     <div class="stage stage4">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>4</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -304,6 +380,9 @@
                         </div>
                     </div>
                     <div class="stage stage5">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>5</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -321,6 +400,9 @@
                 <div class="title">Basics</div>
                 <div class="stages">
                     <div class="stage stage1">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>1</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -331,6 +413,9 @@
                         </div>
                     </div>
                     <div class="stage stage2">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>2</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -341,6 +426,9 @@
                         </div>
                     </div>
                     <div class="stage stage3">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>3</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -351,6 +439,9 @@
                         </div>
                     </div>
                     <div class="stage stage4">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>4</span>
                         <div class="indicators">
                             <span class="indicator"></span>
@@ -361,6 +452,9 @@
                         </div>
                     </div>
                     <div class="stage stage5">
+                        <div class="stage-lock">
+                            <i data-feather="lock"></i>
+                        </div>
                         <span>5</span>
                         <div class="indicators">
                             <span class="indicator"></span>
