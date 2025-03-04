@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Profile Page</title>
 </head>
 
@@ -67,22 +68,24 @@
 
             <div class="profile-badges">
                 @foreach (['bronze', 'silver', 'gold', 'emerald', 'ruby', 'sapphire', 'diamond'] as $index => $badge)
-                @php
-                    $expThresholds = [0, 100, 300, 500, 700, 1000, 1300, 1600];
-                    $expRequired = $expThresholds[$index];
-                    $nextExpRequired = $expThresholds[$index + 1] ?? $expThresholds[$index]; // Use the next threshold for the max
-                @endphp
-                <div class="{{ $badge }}">
-                    <div class="cover {{ $exps < $expRequired ? 'locked' : 'unlocked' }}">
-                        <i data-feather="lock"></i>
-                    </div>
+                    @php
+                        $expThresholds = [0, 100, 300, 500, 700, 1000, 1300, 1600];
+                        $expRequired = $expThresholds[$index];
+                        $nextExpRequired = $expThresholds[$index + 1] ?? $expThresholds[$index]; // Use the next threshold for the max
+                    @endphp
+                    <div class="{{ $badge }}">
+                        <div class="cover {{ $exps < $expRequired ? 'locked' : 'unlocked' }}">
+                            <i data-feather="lock"></i>
+                        </div>
 
-                    <img src="{{ asset('images/' . $badge . '.png') }}" alt="" width="50%" style="margin-top:10px;">
-                    <h5>{{ ucfirst($badge) }}</h5>
-                    <input type="range" value="{{ $exps }}" min="0" max="{{ $nextExpRequired }}" disabled>
-                    <span>{{ $exps }}/{{ $nextExpRequired }}</span>
-                </div>
-            @endforeach
+                        <img src="{{ asset('images/' . $badge . '.png') }}" alt="" width="50%"
+                            style="margin-top:10px;">
+                        <h5>{{ ucfirst($badge) }}</h5>
+                        <input type="range" value="{{ $exps }}" min="0" max="{{ $nextExpRequired }}"
+                            disabled>
+                        <span>{{ $exps }}/{{ $nextExpRequired }}</span>
+                    </div>
+                @endforeach
 
             </div>
 
@@ -98,7 +101,7 @@
                 </div>
                 <div class="exps">
                     <h2 style="color:#39D353;">Total Exps</h2>
-                    <h3 style="margin-top: 15px; text-align:center;">{{ $user->total_exp ?? 0 }}</h3>
+                    <h3 style="margin-top: 15px; text-align:center;">{{ $exps ?? 0 }}</h3>
                 </div>
                 <div class="analysict">
                     <canvas id="typingStatsChart"></canvas>
@@ -228,18 +231,24 @@
                         });
                     </script>
                 </div>
-                <div class="friends">
-                   @foreach ($friends as $f)
-                   <div class="account">
-                    @if ($f->profile != null)
-                    <img src="{{asset('uploads/profile_images/'.$f->profile)}}" alt="" width="50px" height="50px" style="object-position: center;">
+                <div class="friends" style="display: flex;">
+                    @if (!empty($friends))
+                        @foreach ($friends as $f)
+                            <div class="account" style="margin-right:50px;">
+                                @if ($f->profile != null)
+                                    <img src="{{ asset('uploads/profile_images/' . $f->profile) }}" alt=""
+                                        width="50px" height="50px"
+                                        style="object-position: center; border-radius:25px;">
+                                @else
+                                    <img src="{{ asset('images/user.png') }}" alt="" width="50px"
+                                        height="50px" style="object-position: center; border-radius:25px;">
+                                @endif
+                                <p>{{ $f->name }}</p>
+                            </div>
+                        @endforeach
                     @else
-                    <img src="{{asset('images/user.png')}}" alt="" width="50px" height="50px" style="object-position: center;">
+                        <p>No Friend Yet</p>
                     @endif
-                    <p>{{$f->name}}</p>
-                   </div>
-
-                   @endforeach
                 </div>
                 <div class="top3">
                     <h2>Top 5</h2>
@@ -287,7 +296,8 @@
 
                 <div class="others">
                     <label for="name">Name:</label>
-                    <input type="text" id="editName" name="name" value="{{ $user->name }}"><br><br>
+                    <input type="text" id="editName" name="name" value="{{ $user->name }}"
+                        style="color: black;"><br><br>
 
                     <label for="name">Email:</label>
                     <input type="text" id="" disabled value="{{ $user->email }}"><br><br>
@@ -351,6 +361,14 @@
                 error: function(error) {
                     console.log(error);
                 }
+            });
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Add Friend Succefully",
+                showConfirmButton: false,
+                timer: 1500
             });
         }
     </script>

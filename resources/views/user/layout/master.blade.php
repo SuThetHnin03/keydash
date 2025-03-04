@@ -79,6 +79,8 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
+                            location.reload();
+
         }
 
         function remove(id){
